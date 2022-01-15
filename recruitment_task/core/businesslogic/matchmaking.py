@@ -6,7 +6,6 @@ def get_matching_projects(investor: Investor) -> list[Project]:
     deadline = investor.project_delivery_deadline
     individual_amount = investor.individual_amount
     remaining_amount = investor.remaining_amount
-    print('get matching')
     investor_max_amount_per_project = min(remaining_amount, individual_amount)
 
     return Project.objects.filter(
@@ -24,7 +23,7 @@ def get_matching_investors(project: Project) -> list[Investor]:
     delivery_date = project.delivery_date
 
     if funded_by is not None or funded:
-        raise CannotMatchInvestors(f'Project already funded')
+        raise CannotMatchInvestors('Project already funded')
 
     return Investor.objects.filter(
         individual_amount__gte=amount,
