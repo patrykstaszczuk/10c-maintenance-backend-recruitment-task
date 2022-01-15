@@ -13,10 +13,22 @@ def invest_into_project(investor: Investor, project: Project) -> None:
         raise CannotInvestIntoProjectException("Project already funded")
 
     if investor.remaining_amount < project.amount:
-        raise CannotInvestIntoProjectException("Investor has not enough money remaining")
+        raise CannotInvestIntoProjectException(
+            "Investor has not enough money remaining")
 
     if investor.individual_amount < project.amount:
-        raise CannotInvestIntoProjectException("Investor's individual amount is less than project's amount")
+        raise CannotInvestIntoProjectException(
+            "Investor's individual amount is less than project's amount")
 
     if investor.project_delivery_deadline < project.delivery_date:
-        raise CannotInvestIntoProjectException("Project is not meeting investor's deadline")
+        raise CannotInvestIntoProjectException(
+            "Project is not meeting investor's deadline")
+
+    setattr(project, 'funded_by', investor)
+    setattr(project, 'funded', True)
+
+    remaining_amount = investor.remaining_amount - project.amount
+    setattr(investor, 'remaining_amount', remaining_amount)
+
+    investor.save()
+    project.save()

@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from core.models import Investor
+from core.models import Investor, Project
 
 
 @receiver(post_save, sender=Investor)
